@@ -7,7 +7,7 @@ metadata:
     app: book-management
   namespace: development
 spec:
-  type: ClusterIP
+  type: LoadBalancer
   selector:
     name: book-mgmt-app-pod
     app: book-management

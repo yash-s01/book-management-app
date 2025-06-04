@@ -1,0 +1,45 @@
+# book-mgmt-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: book-mgmt-ingress
+  namespace: development
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"  # or "haproxy" if using HAProxy
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: kmpoc.com  # Use a domain or a dummy host for testing
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: book-mgmt-app-service
+                port:
+                  number: 80
+---
+# book-mgmt-ingress.yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: book-mgmt-api-ingress
+  namespace: development
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingress.class: "nginx"  # or "haproxy" if using HAProxy
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.kmpoc.com  # Use a domain or a dummy host for testing
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: book-mgmt-api-service
+                port:
+                  number: 5000
