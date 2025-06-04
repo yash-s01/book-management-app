@@ -24,3 +24,5 @@ spec:
           image: ghcr.io/yash-s01/book-management:DOCKER_IMG_TAG
           ports:
             - containerPort: 80
+      imagePullSecrets:
+        - name: ghcr-secret
