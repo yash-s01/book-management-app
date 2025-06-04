@@ -58,7 +58,17 @@ jobs:
       with:
         cluster_name: ${{ secrets.GKE_CLUSTER_NAME }}
         location: ${{ secrets.GKE_CLUSTER_ZONE }}
-
+        
+    - name: Create imagePullSecret in GKE for GHCR
+      run: |-
+        kubectl create secret docker-registry ghcr-secret \
+          --docker-server=ghcr.io \
+          --docker-username=${{ github.actor }} \
+          --docker-password=${{ secrets.CR_PAT }} \
+          --docker-email=example@example.com \
+          --namespace=development \
+          --dry-run=client -o yaml | kubectl apply -f -
+          
     - name: Deploy on the GKE
       run: |-
         sed -i -e 's/DOCKER_IMG_TAG/'${{ github.sha }}'/' ./kubernetes/book-mgmt-app-deploy.yaml
